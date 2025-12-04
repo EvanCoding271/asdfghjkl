@@ -1,7 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include <string>
-#include <cstdlib> // for system()
+#include <vector>
 using namespace std;
 
 struct Student {
@@ -10,94 +10,145 @@ struct Student {
     string password;
 };
 
+vector<Student> students;
+
+// ---------------------- LOAD & SAVE --------------------------
+void loadStudents() {
+    ifstream infile("students.txt");
+    string sn, nm, pw;
+    students.clear();
+
+    string header;
+    getline(infile, header); // skip header line
+
+    while (infile >> sn) {
+        infile >> ws; // skip whitespace
+        getline(infile, nm, '\n'); // read full name and password
+        size_t pos = nm.rfind(' '); // find last space (before password)
+        pw = nm.substr(pos + 1);
+        nm = nm.substr(0, pos);
+
+        students.push_back({sn, nm, pw});
+    }
+    infile.close();
+}
+
+void saveStudents() {
+    ofstream outfile("students.txt");
+
+    // Add header
+    outfile << "StudentID Name Password\n";
+
+    for (auto &s : students) {
+        outfile << s.studentNumber << " " << s.name << " " << s.password << endl;
+    }
+
+    outfile.close();
+}
+
+// ---------------------- REGISTER --------------------------
 bool registerStudent() {
     Student s;
     cout << "\n--- Student Registration ---\n";
     cout << "Enter Student Number: ";
     cin >> s.studentNumber;
 
-    cout << "Enter Name: ";
+    for (char &c : s.studentNumber) c = toupper(c);
+
     cin.ignore();
+    cout << "Enter Full Name: ";
     getline(cin, s.name);
 
+    // PASSWORD INPUT LOOP
     cout << "Enter Password: ";
-    cin >> s.password;
+    while (true) {
+        getline(cin, s.password);
 
-    // Check if exists
-    ifstream infile("students.txt");
-    string sn, nm, pw;
-    while (infile >> sn >> nm >> pw) {
-        if (sn == s.studentNumber) {
+        if (s.password.length() < 4) {
+            cout << "❌ Password must be at least 4 characters. Try again: ";
+        } 
+        else if (s.password.find(" ") != string::npos) {
+            cout << "❌ Password cannot contain spaces. Try again: ";
+        } 
+        else {
+            break;
+        }
+    }
+
+    // Check duplicate
+    for (auto &st : students) {
+        if (st.studentNumber == s.studentNumber) {
             cout << "❌ Student already exists!\n";
             return false;
         }
     }
-    infile.close();
 
-    ofstream outfile("students.txt", ios::app);
-    outfile << s.studentNumber << " " << s.name << " " << s.password << endl;
-    outfile.close();
-
-    cout << "✅ Registration successful!\n";
+    students.push_back(s);
+    saveStudents();
+    cout << "✅ Registration Successful!\n";
     return true;
 }
 
+// ---------------------- LOGIN --------------------------
 bool loginStudent() {
-    string snInput, pwInput;
-
+    string snInput;
     cout << "\n--- Student Login ---\n";
-    cout << "Enter Student Number: ";
-    cin >> snInput;
-    cout << "Enter Password: ";
-    cin >> pwInput;
-
-    ifstream infile("students.txt");
-    string sn, nm, pw;
-    while (infile >> sn >> nm >> pw) {
-        if (sn == snInput && pw == pwInput) {
-            cout << "✅ Welcome " << nm << "! Login successful.\n";
-            infile.close();
-
-            // Call menu.cpp program
-        #ifdef _WIN32
-            system("menu.exe");  // Windows
-        #else
-            system("./menu");    // Linux / Mac
-        #endif
-            return true;
-        }
-    }
-    infile.close();
-
-    cout << "❌ Incorrect student number or password.\n";
-    return false;
-}
-
-int main() {
-    int choice;
 
     while (true) {
-        cout << "\n=== Secondary Education Learning System ===\n";
+        cout << "Enter Student Number: ";
+        cin >> snInput;
+
+        for (char &c : snInput) c = toupper(c);
+
+        Student* found = nullptr;
+        for (auto &s : students) {
+            if (s.studentNumber == snInput) {
+                found = &s;
+                break;
+            }
+        }
+
+        if (!found) {
+            cout << "❌ Student number not found. Try again.\n";
+            continue;
+        }
+
+        string pwInput;
+        while (true) {
+            cout << "Enter Password: ";
+            cin >> pwInput;
+
+            if (pwInput == found->password) {
+                cout << "✅ Welcome " << found->name << "! Login successful.\n";
+                return true;
+            } else {
+                cout << "❌ Incorrect password. Try again.\n";
+            }
+        }
+    }
+}
+
+// ---------------------- MAIN --------------------------
+int main() {
+    int choice;
+    loadStudents();
+
+    while (true) {
+        cout << "\n=== Student System ===\n";
         cout << "1. Login\n";
         cout << "2. Register\n";
         cout << "3. Exit\n";
         cout << "Choose an option: ";
         cin >> choice;
 
-        if (choice == 1) {
-            loginStudent();
-        } 
-        else if (choice == 2) {
-            registerStudent();
-        } 
+        if (choice == 1) loginStudent();
+        else if (choice == 2) registerStudent();
         else if (choice == 3) {
             cout << "Goodbye!\n";
             break;
-        } 
-        else {
+        } else {
             cout << "Invalid choice!\n";
         }
     }
-
     return 0;
 }
