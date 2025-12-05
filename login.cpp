@@ -12,6 +12,15 @@ struct Student {
 
 vector<Student> students;
 
+// ---------------------- CLEAR CONSOLE --------------------------
+void clearConsole() {
+    #ifdef _WIN32
+        system("cls");
+    #else
+        system("clear");
+    #endif
+}
+
 // ---------------------- LOAD & SAVE --------------------------
 void loadStudents() {
     ifstream infile("students.txt");
@@ -48,6 +57,7 @@ void saveStudents() {
 
 // ---------------------- REGISTER --------------------------
 bool registerStudent() {
+    clearConsole();
     Student s;
     cout << "\n--- Student Registration ---\n";
     cout << "Enter Student Number: ";
@@ -89,6 +99,7 @@ bool registerStudent() {
 
 // ---------------------- LOGIN --------------------------
 bool loginStudent() {
+    clearConsole();
     string snInput;
     cout << "\n--- Student Login ---\n";
 
@@ -105,14 +116,25 @@ bool loginStudent() {
             }
         }
 
+        string pwInput;
+        cout << "Enter Password: ";
+        cin >> pwInput;
+
+        // Check if admin
+        if (pwInput == "admin") {
+            cout << "✅ Admin access granted!\n";
+            #ifdef _WIN32
+                system("admin.exe"); // Launch admin program on Windows
+            #else
+                system("./admin");   // Launch admin program on Linux/Mac
+            #endif
+            return true;
+        }
+
         if (!found) {
             cout << "❌ Student number not found. Try again.\n";
             continue;
         }
-
-        string pwInput;
-        cout << "Enter Password: ";
-        cin >> pwInput;
 
         if (pwInput == found->password) {
             cout << "✅ Welcome " << found->name << "! Login successful.\n";
@@ -137,6 +159,7 @@ int main() {
     loadStudents();
 
     while (true) {
+        clearConsole();
         cout << "\n=== Student System ===\n";
         cout << "1. Login\n";
         cout << "2. Register\n";
@@ -152,6 +175,10 @@ int main() {
         } else {
             cout << "Invalid choice!\n";
         }
+
+        cout << "Press Enter to continue...";
+        cin.ignore();
+        cin.get();
     }
 
     return 0;
