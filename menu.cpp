@@ -3,9 +3,6 @@
 #include <algorithm> 
 #include <cstdlib>   
 #include <iomanip>   
-#include <fstream>   
-#include <sstream>   
-#include <cstdio>    // For the remove() function
 
 using namespace std;
 
@@ -148,7 +145,7 @@ void viewReportCard(Subject subjects[]) {
         if (subjects[i].currentLevel == 2) {
             cout << "L3: " << subjects[i].scores[2] << "/5";
         }
-        if (subjects[i].currentLevel == 0 && subjects[i].scores[0] == 0) {
+        if (subjects[i].currentLevel == 0) {
             cout << "No scores recorded yet.";
         }
         cout << endl;
@@ -158,79 +155,54 @@ void viewReportCard(Subject subjects[]) {
     cin.ignore(1000, '\n'); 
 }
 
-void saveStudentData(Subject subjects[], const string& filename) {
-    ofstream outFile(filename);
-    if (outFile.is_open()) {
-        for (int i = 0; i < 7; ++i) {
-            outFile << subjects[i].name << " " 
-                    << subjects[i].currentLevel << " " 
-                    << subjects[i].scores[0] << " " 
-                    << subjects[i].scores[1] << " " 
-                    << subjects[i].scores[2] << endl;
-        }
-        outFile.close();
-        cout << "\nData saved successfully to " << filename << ".\n";
-    } else {
-        cout << "\nERROR: Unable to open file to save data.\n";
-    }
-}
-
-void loadStudentData(Subject subjects[], const string& filename) {
-    ifstream inFile(filename);
-    if (inFile.is_open()) {
-        string name;
-        int currentLevel, s0, s1, s2;
-        
-        for (int i = 0; i < 7; ++i) {
-            if (inFile >> name >> currentLevel >> s0 >> s1 >> s2) {
-                subjects[i].currentLevel = currentLevel;
-                subjects[i].scores[0] = s0;
-                subjects[i].scores[1] = s1;
-                subjects[i].scores[2] = s2;
-            } else {
-                break;
-            }
-        }
-        inFile.close();
-        cout << "\nData loaded successfully from " << filename << ".\n";
-    } else {
-        cout << "\nNo existing student data found for " << filename << ". Starting fresh.\n";
-    }
-}
-
 
 int main() {
     Subject subjects[7] = {
         {"Math",
          { 
-             {"**Level 1: Addition, Subtraction, and Basic Multiplication**\n\n1. **Addition** combines groups to find the **sum**.\n2. **Subtraction** finds the **difference**.\n3. **Multiplication** is repeated addition.",
+             {"**Level 1: Addition, Subtraction, and Basic Multiplication**\n\n"
+              "1. **Addition** combines groups to find the **sum**.\n"
+              "2. **Subtraction** finds the **difference**.\n"
+              "3. **Multiplication** is repeated addition.",
               {"3 + 4 = ?", "5 + 2 = ?", "10 - 3 = ?", "7 - 5 = ?", "3 * 4 = ?"}, 
               {"7", "7", "7", "2", "12"}},
 
-             {"**Level 2: Advanced Multiplication and Division**\n\n1. **Multiplication** involves larger factors.\n2. **Division** splits a number into equal groups. The result is the **quotient**.",
+             {"**Level 2: Advanced Multiplication and Division**\n\n"
+              "1. **Multiplication** involves larger factors.\n"
+              "2. **Division** splits a number into equal groups. The result is the **quotient**.",
               {"8 * 7 = ?", "9 * 6 = ?", "25 / 5 = ?", "18 / 3 = ?", "15 + 15 = ?"}, 
               {"56", "54", "5", "6", "30"}},
               
-             {"**Level 3: Order of Operations and Exponents**\n\n1. **PEMDAS/BODMAS** dictates the order of operations: Parentheses, Exponents, Multiplication/Division, Addition/Subtraction.\n2. **Exponents** indicate repeated multiplication (e.g., $2^3 = 2 \\times 2 \\times 2$).",
+             {"**Level 3: Order of Operations and Exponents**\n\n"
+              "1. **PEMDAS/BODMAS** dictates the order of operations: Parentheses, Exponents, Multiplication/Division, Addition/Subtraction.\n"
+              "2. **Exponents** indicate repeated multiplication (e.g., $2^3 = 2 \\times 2 \\times 2$).",
               {"$2^3$ = ?", "10 - 2 * 3 = ?", "6 + 4 / 2 = ?", "(1 + 3) * 2 = ?", "5 * 5 = ?"}, 
               {"8", "4", "8", "8", "25"}}
-         }, 0}, 
+         },
+         0}, 
 
         {"Science",
          {
-             {"**Level 1: Photosynthesis and Plant Needs**\n\n1. **Plant Needs**: Plants require **sunlight**, **water**, and **soil**.\n2. **Photosynthesis**: Plants convert sun energy into **sugar (food)** and release **oxygen**.",
+             {"**Level 1: Photosynthesis and Plant Needs**\n\n"
+              "1. **Plant Needs**: Plants require **sunlight**, **water**, and **soil**.\n"
+              "2. **Photosynthesis**: Plants convert sun energy into **sugar (food)** and release **oxygen**.",
               {"What do plants need to grow?", "What is the process plants use to make food?", "What gas do plants absorb from the air?", "What important gas do plants release?", "Do plants need soil?"},
               {"sunlight", "photosynthesis", "carbon dioxide", "oxygen", "yes"}
              },
-             {"**Level 2: Basic Cell Structure and Classification**\n\n1. The **cell** is the basic unit of life.\n2. Life is divided into **Kingdoms** (e.g., Animalia, Plantae, Fungi) based on characteristics.",
+             {"**Level 2: Basic Cell Structure and Classification**\n\n"
+              "1. The **cell** is the basic unit of life.\n"
+              "2. Life is divided into **Kingdoms** (e.g., Animalia, Plantae, Fungi) based on characteristics.",
               {"What is the basic unit of life?", "What is the study of living things called?", "Name one biological kingdom.", "Do animals have cells?", "True or False: All living things have cells."},
               {"cell", "biology", "animalia", "yes", "true"}
              },
-             {"**Level 3: Ecosystems and Food Webs**\n\n1. An **Ecosystem** is a community of living and non-living things interacting.\n2. A **Food Web** shows how energy flows through an ecosystem: Producers (plants) are eaten by Consumers (animals).",
+             {"**Level 3: Ecosystems and Food Webs**\n\n"
+              "1. An **Ecosystem** is a community of living and non-living things interacting.\n"
+              "2. A **Food Web** shows how energy flows through an ecosystem: Producers (plants) are eaten by Consumers (animals).",
               {"What is a producer in a food web?", "What does an ecosystem include?", "What type of consumer eats only plants?", "Is light a living or non-living part of an ecosystem?", "True or False: The sun powers most food webs."},
               {"plants", "living and non-living things", "herbivore", "non-living", "true"}
              }
-         }, 0}, 
+         },
+         0}, 
 
         {"English",
          {
@@ -313,38 +285,11 @@ int main() {
          }, 0}
     };
 
-    string studentID;
-    string studentFilename;
-    
-    // LOAD STUDENT ID FROM TEMP FILE (current_student_id.tmp created by login.cpp)
-    ifstream tempFile("current_student_id.tmp");
-    if (tempFile.is_open()) {
-        getline(tempFile, studentID);
-        tempFile.close();
-        // Remove the temporary file after reading
-        remove("current_student_id.tmp");
-    } else {
-        // Handle case if menu is run directly without login
-        clearScreen();
-        cout << "\nFATAL ERROR: Student ID not found. Please log in using login.exe first.\n";
-        cout << "Press Enter to exit...";
-        cin.ignore(1000, '\n'); 
-        return 1;
-    }
-    
-    // Auto-generate filename using the retrieved student ID
-    studentFilename = studentID + ".txt";
-    
-    clearScreen();
-    cout << "\n=== WELCOME ===\n";
-    cout << "Loading progress for Student ID: " << studentID << "\n";
-    loadStudentData(subjects, studentFilename);
-
     int choice;
 
     do {
         clearScreen();
-        cout << "\n=== STUDENT MENU (ID: " << studentID << ") ===\n";
+        cout << "\n=== STUDENT MENU ===\n";
         cout << "Choose a subject to study:\n";
         
         for (int i = 0; i < 7; i++) {
@@ -356,7 +301,7 @@ int main() {
         }
             
         cout << "\n8. View Report Card\n";
-        cout << "0. Exit Program (Saves Data)\n";
+        cout << "0. Exit Program\n";
         cout << "Enter your choice: ";
         
         cin >> choice;
@@ -373,7 +318,6 @@ int main() {
             viewReportCard(subjects);
         }
          else if (choice == 0) {
-            saveStudentData(subjects, studentFilename);
             cout << "\nExiting menu. Thank you for using the learning application.\n";
         } else {
             cout << "\nInvalid choice entered. Press Enter to retry...\n";
