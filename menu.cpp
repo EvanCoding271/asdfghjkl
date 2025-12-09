@@ -354,15 +354,9 @@ int main() {
                 cout << i + 1 << ". " << subjects[i].name << " (Level " << subjects[i].currentLevel + 1 << ")" << endl;
             }
         }
-<<<<<<< HEAD
-
-        cout << "8. View Report Card\n";
-        cout << "0. Exit Program\n";
-=======
             
         cout << "\n8. View Report Card\n";
         cout << "0. Exit Program (Saves Data)\n";
->>>>>>> 42d5fd535a3fbc1ad140f4e4ac88951e33a20047
         cout << "Enter your choice: ";
         
         cin >> choice;
