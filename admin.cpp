@@ -1,7 +1,3 @@
-// admin.cpp
-// Admin console — uses per-student files (e.g. S001.txt) produced by menu.cpp
-// Author: ChatGPT (adapted for the user's system)
-
 #include <iostream>
 #include <fstream>
 #include <sstream>
