@@ -76,8 +76,6 @@ bool loginAdmin(const string& id, const string& pw) {
 }
 
 // ====================== LOAD STUDENTS ========================
-=======
-// ---------------------- CLEAR CONSOLE --------------------------
 void clearConsole() {
     #ifdef _WIN32
         system("cls");
@@ -86,8 +84,6 @@ void clearConsole() {
     #endif
 }
 
-// ---------------------- LOAD & SAVE --------------------------
->>>>>>> b69d17e9bac5bca6eeb8e803a6839335307977ad
 void loadStudents() {
     ifstream infile("loginrecord.txt");
     string sn, nm, pw;
@@ -123,9 +119,7 @@ void saveStudents() {
 
 <<<<<<< HEAD
 // ====================== REGISTER STUDENT =====================
-=======
-// ---------------------- REGISTER STUDENT --------------------------
->>>>>>> b69d17e9bac5bca6eeb8e803a6839335307977ad
+
 bool registerStudent() {
     clearConsole();
     Student s;
@@ -163,7 +157,6 @@ bool registerStudent() {
     return true;
 }
 
-<<<<<<< HEAD
 // ========================= LOGIN ==============================
 bool loginStudent() {
     string idInput, pwInput;
@@ -171,7 +164,6 @@ bool loginStudent() {
     cout << "\n--- Login ---\n";
     cout << "Enter ID: ";
     cin >> idInput;
-=======
 // ---------------------- ADMIN LOGIN --------------------------
 bool loginAdmin() {
     clearConsole();
@@ -222,12 +214,10 @@ bool loginStudent() {
         }
 
         for (char &c : snInput) c = toupper(c);
->>>>>>> b69d17e9bac5bca6eeb8e803a6839335307977ad
 
     // Uppercase ID
     for (char &c : idInput) c = toupper(c);
 
-<<<<<<< HEAD
     cout << "Enter Password: ";
     cin >> pwInput;
 
@@ -242,7 +232,7 @@ bool loginStudent() {
         if (s.studentNumber == idInput) {
             found = &s;
             break;
-=======
+
         if (!found) {
             cout << "❌ Student number not found. Try again, or type C to cancel.\n";
             continue;
@@ -261,7 +251,6 @@ bool loginStudent() {
             return true;
         } else {
             cout << "❌ Wrong ID or password. Try again, or type C to cancel.\n";
->>>>>>> b69d17e9bac5bca6eeb8e803a6839335307977ad
         }
     }
 
@@ -295,19 +284,19 @@ int main() {
     loadStudents(); // load students
 
     while (true) {
-<<<<<<< HEAD
+
         cout << "\n=== System Login ===\n";
         cout << "1. Login\n";
         cout << "2. Register (Student Only)\n";
         cout << "3. Exit\n";
-=======
+
         clearConsole();
         cout << "\n=== Student System ===\n";
         cout << "1. Admin Login\n";
         cout << "2. Student Login\n";
         cout << "3. Register Student\n";
         cout << "4. Exit\n";
->>>>>>> b69d17e9bac5bca6eeb8e803a6839335307977ad
+
         cout << "Choose an option: ";
         cin >> choice;
 
@@ -320,14 +309,13 @@ int main() {
                 return 0;
             default: cout << "Invalid choice!\n"; break;
         }
-<<<<<<< HEAD
+
     }
     return 0;
-=======
+
 
         cout << "\nPress Enter to continue...";
         cin.ignore();
         cin.get();
     }
->>>>>>> b69d17e9bac5bca6eeb8e803a6839335307977ad
 }
