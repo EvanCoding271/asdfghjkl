@@ -13,6 +13,7 @@ struct Student {
 
 vector<Student> students;
 
+<<<<<<< HEAD
 // ====================== ADMIN STRUCT ========================
 struct Admin {
     string adminID;
@@ -75,8 +76,20 @@ bool loginAdmin(const string& id, const string& pw) {
 }
 
 // ====================== LOAD STUDENTS ========================
+=======
+// ---------------------- CLEAR CONSOLE --------------------------
+void clearConsole() {
+    #ifdef _WIN32
+        system("cls");
+    #else
+        system("clear");
+    #endif
+}
+
+// ---------------------- LOAD & SAVE --------------------------
+>>>>>>> b69d17e9bac5bca6eeb8e803a6839335307977ad
 void loadStudents() {
-    ifstream infile("students.txt");
+    ifstream infile("loginrecord.txt");
     string sn, nm, pw;
     students.clear();
 
@@ -100,7 +113,7 @@ void loadStudents() {
 
 // ====================== SAVE STUDENTS ========================
 void saveStudents() {
-    ofstream outfile("students.txt");
+    ofstream outfile("loginrecord.txt");
     outfile << "StudentID Name Password\n";
     for (auto &s : students) {
         outfile << s.studentNumber << " " << s.name << " " << s.password << endl;
@@ -108,8 +121,13 @@ void saveStudents() {
     outfile.close();
 }
 
+<<<<<<< HEAD
 // ====================== REGISTER STUDENT =====================
+=======
+// ---------------------- REGISTER STUDENT --------------------------
+>>>>>>> b69d17e9bac5bca6eeb8e803a6839335307977ad
 bool registerStudent() {
+    clearConsole();
     Student s;
     cout << "\n--- Student Registration ---\n";
     cout << "Enter Student Number: ";
@@ -145,6 +163,7 @@ bool registerStudent() {
     return true;
 }
 
+<<<<<<< HEAD
 // ========================= LOGIN ==============================
 bool loginStudent() {
     string idInput, pwInput;
@@ -152,10 +171,63 @@ bool loginStudent() {
     cout << "\n--- Login ---\n";
     cout << "Enter ID: ";
     cin >> idInput;
+=======
+// ---------------------- ADMIN LOGIN --------------------------
+bool loginAdmin() {
+    clearConsole();
+    string adminID, pwInput;
+
+    while (true) {
+        cout << "\n--- Admin Login ---\n";
+        cout << "Enter Admin ID (or C to cancel): ";
+        cin >> adminID;
+
+        // Cancel option
+        if (adminID == "C" || adminID == "c") {
+            cout << "❌ Admin login cancelled.\n";
+            return false;
+        }
+
+        cout << "Enter Password: ";
+        cin >> pwInput;
+
+        if ((adminID == "101" || adminID == "102" || adminID == "103") && pwInput == "admin") {
+            cout << "✅ Admin access granted!\n";
+            #ifdef _WIN32
+                system("admin.exe"); // Launch admin program on Windows
+            #else
+                system("./admin");   // Launch admin program on Linux/Mac
+            #endif
+            return true;
+        } else {
+            cout << "❌ Wrong admin ID or password. Try again, or type C to cancel.\n";
+        }
+    }
+}
+
+// ---------------------- STUDENT LOGIN --------------------------
+bool loginStudent() {
+    clearConsole();
+    string snInput, pwInput;
+
+    while (true) {
+        cout << "\n--- Student Login ---\n";
+        cout << "Enter Student Number (or C to cancel): ";
+        cin >> snInput;
+
+        // Cancel option
+        if (snInput == "C" || snInput == "c") {
+            cout << "❌ Student login cancelled.\n";
+            return false;
+        }
+
+        for (char &c : snInput) c = toupper(c);
+>>>>>>> b69d17e9bac5bca6eeb8e803a6839335307977ad
 
     // Uppercase ID
     for (char &c : idInput) c = toupper(c);
 
+<<<<<<< HEAD
     cout << "Enter Password: ";
     cin >> pwInput;
 
@@ -170,6 +242,26 @@ bool loginStudent() {
         if (s.studentNumber == idInput) {
             found = &s;
             break;
+=======
+        if (!found) {
+            cout << "❌ Student number not found. Try again, or type C to cancel.\n";
+            continue;
+        }
+
+        cout << "Enter Password: ";
+        cin >> pwInput;
+
+        if (pwInput == found->password) {
+            cout << "✅ Welcome " << found->name << "! Login successful.\n";
+            #ifdef _WIN32
+                system("menu.exe");
+            #else
+                system("./menu");
+            #endif
+            return true;
+        } else {
+            cout << "❌ Wrong ID or password. Try again, or type C to cancel.\n";
+>>>>>>> b69d17e9bac5bca6eeb8e803a6839335307977ad
         }
     }
 
@@ -203,21 +295,39 @@ int main() {
     loadStudents(); // load students
 
     while (true) {
+<<<<<<< HEAD
         cout << "\n=== System Login ===\n";
         cout << "1. Login\n";
         cout << "2. Register (Student Only)\n";
         cout << "3. Exit\n";
+=======
+        clearConsole();
+        cout << "\n=== Student System ===\n";
+        cout << "1. Admin Login\n";
+        cout << "2. Student Login\n";
+        cout << "3. Register Student\n";
+        cout << "4. Exit\n";
+>>>>>>> b69d17e9bac5bca6eeb8e803a6839335307977ad
         cout << "Choose an option: ";
         cin >> choice;
 
-        if (choice == 1) loginStudent();
-        else if (choice == 2) registerStudent();
-        else if (choice == 3) {
-            cout << "Goodbye!\n";
-            break;
-        } else {
-            cout << "Invalid choice!\n";
+        switch (choice) {
+            case 1: loginAdmin(); break;
+            case 2: loginStudent(); break;
+            case 3: registerStudent(); break;
+            case 4: 
+                cout << "Goodbye!\n"; 
+                return 0;
+            default: cout << "Invalid choice!\n"; break;
         }
+<<<<<<< HEAD
     }
     return 0;
+=======
+
+        cout << "\nPress Enter to continue...";
+        cin.ignore();
+        cin.get();
+    }
+>>>>>>> b69d17e9bac5bca6eeb8e803a6839335307977ad
 }
