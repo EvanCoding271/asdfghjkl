@@ -3,21 +3,13 @@
     "files.associations": {
         "*.cpp": "cpp"
     },
-    
-    // DISABLE auto build from C/C++ extension
-    "C_Cpp.autocomplete": "disabled",
-    "C_Cpp.default.compileCommands": "",
-    
-    // SET output directory explicitly
     "code-runner.executorMap": {
-        "cpp": "cd $workspaceRoot && g++ CODE\\$fileName -o BUILD\\$fileNameWithoutExt.exe && BUILD\\$fileNameWithoutExt.exe"
+        "cpp": "cd $dir && g++ $fileName -o $fileNameWithoutExt.exe && $fileNameWithoutExt.exe"
     },
-    "code-runner.cwd": "$workspaceRoot",
-    "code-runner.saveFileBeforeRun": true,
-    
-    // Prevent any other output
+    "code-runner.cwd": "$dir",
+    "code-runner.runInTerminal": true,
     "files.exclude": {
-        "CODE/**/*.exe": true,
-        "CODE/**/*.o": true
+        "**/*.exe": false,
+        "**/*.o": false
     }
 }
