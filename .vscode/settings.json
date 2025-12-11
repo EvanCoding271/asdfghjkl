@@ -1,15 +1,11 @@
 {
-    "C_Cpp.default.compilerPath": "g++",
+    "C_Cpp.default.compilerPath": "C:/msys64/mingw64/bin/g++.exe",
     "files.associations": {
         "*.cpp": "cpp"
     },
     "code-runner.executorMap": {
-        "cpp": "cd $dir && g++ $fileName -o $fileNameWithoutExt.exe && $fileNameWithoutExt.exe"
+        "cpp": "cd $dir && C:/msys64/mingw64/bin/g++.exe $fileName -o $fileNameWithoutExt.exe && $fileNameWithoutExt.exe"
     },
     "code-runner.cwd": "$dir",
-    "code-runner.runInTerminal": true,
-    "files.exclude": {
-        "**/*.exe": false,
-        "**/*.o": false
-    }
+    "code-runner.runInTerminal": true
 }

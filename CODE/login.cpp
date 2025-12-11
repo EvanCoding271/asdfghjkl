@@ -67,10 +67,8 @@ bool loginAdmin(const string& id, const string& pw) {
 
 #ifdef _WIN32
             system("admin.exe");
-            exit(0);  // Exit login.exe after launching admin.exe
 #else
             system("./admin");
-            exit(0);
 #endif
             return true;
         }
@@ -198,10 +196,8 @@ bool loginStudent() {
                 // Launch menu program
 #ifdef _WIN32
                 system("menu.exe");
-                exit(0);  // Exit login.exe after launching menu.exe
 #else
                 system("./menu");
-                exit(0);
 #endif
                 return true;
             } else {
