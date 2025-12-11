@@ -142,13 +142,13 @@ bool registerStudent() {
     getline(cin, s.password);
 
     if (s.password.length() < 4 || s.password.find(' ') != string::npos) {
-        cout << "❌ Invalid password.\n";
+        cout << "X Invalid password.\n";
         return false;
     }
 
     for (auto& st : students) {
         if (st.studentNumber == s.studentNumber) {
-            cout << "❌ Student already exists!\n";
+            cout << "X Student already exists!\n";
             return false;
         }
     }
@@ -156,7 +156,7 @@ bool registerStudent() {
     students.push_back(s);
     saveStudents();
 
-    cout << "✅ Registration successful!\n";
+    cout << " Registration successful!\n";
     return true;
 }
 
@@ -179,9 +179,9 @@ bool loginStudent() {
     for (auto& s : students) {
         if (s.studentNumber == idInput) {
             if (s.password == pwInput) {
-                cout << "✅ Welcome " << s.name << "! Login successful.\n";
+                cout << " Welcome " << s.name << "! Login successful.\n";
 
-                // ✅ Save student ID to temp file for menu.cpp
+                //  Save student ID to temp file for menu.cpp
                 ofstream tempFile("current_student_id.tmp");
                 if(tempFile.is_open()){
                     tempFile << idInput;
@@ -199,13 +199,13 @@ bool loginStudent() {
 #endif
                 return true;
             } else {
-                cout << "❌ Wrong password.\n";
+                cout << "X Wrong password.\n";
                 return false;
             }
         }
     }
 
-    cout << "❌ Student not found.\n";
+    cout << "X Student not found.\n";
     return false;
 }
 
